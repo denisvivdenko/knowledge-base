@@ -1,9 +1,10 @@
 import os
 from contextlib import asynccontextmanager
 
+import httpx
 import pytest
 from mcp import ClientSession
-from mcp.client.streamable_http import streamablehttp_client
+from mcp.client.streamable_http import streamable_http_client
 
 ANTHROPIC_MODEL = "claude-haiku-4-5-20251001"
 
@@ -37,10 +38,11 @@ async def open_mcp_session():
     inside the test keeps setup, use, and teardown in one task.
     """
     headers = {"X-API-Key": require_test_server_token()}
-    async with streamablehttp_client(TEST_SERVER_URL, headers=headers) as (read, write, _):
-        async with ClientSession(read, write) as session:
-            await session.initialize()
-            yield session
+    async with httpx.AsyncClient(headers=headers) as http_client:
+        async with streamable_http_client(TEST_SERVER_URL, http_client=http_client) as (read, write, _):
+            async with ClientSession(read, write) as session:
+                await session.initialize()
+                yield session
 
 
 def mcp_tools_to_anthropic_tools(tools) -> list[dict]:

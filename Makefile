@@ -1,7 +1,7 @@
 .PHONY: test run up down logs
 
 test:
-	$(MAKE) up-test-server &&  sleep 5 && \
+	$(MAKE) up-test-server && sleep 5 && \
 	uv run --env-file .env.test pytest $(ARGS) && \
 	$(MAKE) down-test-server
 
