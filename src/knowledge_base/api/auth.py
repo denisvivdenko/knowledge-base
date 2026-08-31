@@ -9,10 +9,17 @@ def hash_token(token: str) -> str:
     return hashlib.sha256(token.encode("utf-8")).hexdigest()
 
 
-class BearerTokenAuthMiddleware:
-    """Gate an ASGI app behind a bearer token, checked by hash only.
+API_KEY_HEADER = b"x-api-key"
 
-    The raw token is never held server-side; only its SHA-256 hash is
+
+class ApiKeyAuthMiddleware:
+    """Gate an ASGI app behind an API key, checked by hash only.
+
+    Uses a dedicated `X-API-Key` header rather than `Authorization`, since
+    OAuth-based MCP clients (e.g. Claude) already populate `Authorization`
+    for their own flow.
+
+    The raw key is never held server-side; only its SHA-256 hash is
     configured, so a leaked env dump or config file doesn't hand out a
     usable credential.
     """
@@ -27,8 +34,8 @@ class BearerTokenAuthMiddleware:
             return
 
         headers = dict(scope["headers"])
-        auth_header = headers.get(b"authorization", b"").decode("latin-1")
-        token = auth_header[7:] if auth_header.lower().startswith("bearer ") else None
+        token = headers.get(API_KEY_HEADER)
+        token = token.decode("latin-1") if token is not None else None
 
         if token is None or not hmac.compare_digest(hash_token(token), self._token_hash):
             await self._send_unauthorized(send)
@@ -46,7 +53,6 @@ class BearerTokenAuthMiddleware:
                 "headers": [
                     (b"content-type", b"application/json"),
                     (b"content-length", str(len(body)).encode("latin-1")),
-                    (b"www-authenticate", b"Bearer"),
                 ],
             }
         )

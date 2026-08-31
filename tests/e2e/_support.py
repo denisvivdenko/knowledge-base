@@ -18,9 +18,9 @@ def require_anthropic_api_key() -> str:
 
 
 def require_test_server_token() -> str:
-    token = os.environ.get("AUTH_TEST_TOKEN")
+    token = os.environ.get("TEST_AUTH_TOKEN")
     if not token:
-        pytest.skip("AUTH_TEST_TOKEN is not set")
+        pytest.skip("TEST_AUTH_TOKEN is not set")
     return token
 
 
@@ -36,7 +36,7 @@ async def open_mcp_session():
     tasks, which trips that check. Opening this inline with `async with`
     inside the test keeps setup, use, and teardown in one task.
     """
-    headers = {"Authorization": f"Bearer {require_test_server_token()}"}
+    headers = {"X-API-Key": require_test_server_token()}
     async with streamablehttp_client(TEST_SERVER_URL, headers=headers) as (read, write, _):
         async with ClientSession(read, write) as session:
             await session.initialize()

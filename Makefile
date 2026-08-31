@@ -2,14 +2,14 @@
 
 test:
 	$(MAKE) up-test-server &&  sleep 5 && \
-	uv run --env-file .env pytest $(ARGS) && \
+	uv run --env-file .env.test pytest $(ARGS) && \
 	$(MAKE) down-test-server
 
 up-test-server:
 	docker compose --env-file .env.test --profile test up --build -d;
 
 down-test-server:
-	docker compose --env-file .env.test --profile test up --build -d;
+	docker compose --env-file .env.test --profile test down;
 
 run:
 	uv run --env-file .env server.py;

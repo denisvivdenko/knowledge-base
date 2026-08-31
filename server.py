@@ -2,13 +2,13 @@ import os
 
 import uvicorn
 
-from knowledge_base.api.auth import BearerTokenAuthMiddleware
+from knowledge_base.api.auth import ApiKeyAuthMiddleware
 from knowledge_base.api.server import mcp
 
 
 def _build_app():
     token_hash = os.environ["AUTH_TOKEN_HASH"]
-    return BearerTokenAuthMiddleware(mcp.streamable_http_app(), token_hash=token_hash)
+    return ApiKeyAuthMiddleware(mcp.streamable_http_app(), token_hash=token_hash)
 
 
 if __name__ == "__main__":
