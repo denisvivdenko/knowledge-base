@@ -18,18 +18,6 @@ from _support import (
 )
 
 
-def _read_jsonl(path):
-    with path.open() as f:
-        return [json.loads(line) for line in f if line.strip()]
-
-
-def _write_jsonl(path, records):
-    with path.open("w") as f:
-        for record in records:
-            f.write(json.dumps(record))
-            f.write("\n")
-
-
 def _tool_use_block(message):
     for block in message.content:
         if block.type == "tool_use":
@@ -55,85 +43,54 @@ def _tool_result_payload(result):
     return json.loads(text_blocks[0])
 
 
-async def test_add_questions_e2e_saves_question_via_real_llm_tool_call(data_dir):
+async def test_add_then_retrieve_questions_e2e_round_trips_via_real_llm_tool_calls(data_dir):
+    # Arrange
     require_anthropic_api_key()
     client = Anthropic()
+
+    add_prompt = (
+        "I approve saving the following questions to my knowledge base. "
+        "Call the add_questions tool now with exactly this data, unmodified:\n"
+        "- content: \"What is a Databricks cluster policy?\"\n"
+        "  answer: \"A set of rules that limits the cluster configurations users are allowed to create.\"\n"
+        "- content: \"What is a Postgres B-tree index?\"\n"
+        "  answer: \"An ordered index structure good for range queries.\"\n"
+    )
+    retrieve_prompt = "What questions do I have saved about databricks? Use the tool to look them up."
 
     async with open_mcp_session(data_dir) as mcp_session:
         tools_result = await mcp_session.list_tools()
         tools = mcp_tools_to_anthropic_tools(tools_result.tools)
 
-        prompt = (
-            "I approve saving the following question to my knowledge base. "
-            "Call the add_questions tool now with exactly this data, unmodified:\n"
-            "- content: \"What is a Databricks cluster policy?\"\n"
-            "- answer: \"A set of rules that limits the cluster configurations users are allowed to create.\"\n"
-        )
-        message = client.messages.create(
+        # Act
+        add_message = client.messages.create(
             model=ANTHROPIC_MODEL,
             max_tokens=1024,
             tools=tools,
             tool_choice={"type": "any"},
-            messages=[{"role": "user", "content": prompt}],
+            messages=[{"role": "user", "content": add_prompt}],
         )
+        add_tool_use = _tool_use_block(add_message)
+        add_result = await mcp_session.call_tool(add_tool_use.name, add_tool_use.input)
 
-        tool_use = _tool_use_block(message)
-        assert tool_use.name == "add_questions"
-
-        result = await mcp_session.call_tool(tool_use.name, tool_use.input)
-        assert not result.isError, result.content
-
-    payload = _tool_result_payload(result)
-    assert payload["count"] == 1
-
-    questions_file = data_dir / "questions.jsonl"
-    assert questions_file.exists()
-    saved = _read_jsonl(questions_file)
-
-    assert len(saved) == 1
-    assert "cluster policy" in saved[0]["content"].lower()
-
-
-async def test_retrieve_questions_by_topic_e2e_filters_via_real_llm_tool_call(data_dir):
-    require_anthropic_api_key()
-    client = Anthropic()
-
-    data_dir.mkdir(parents=True, exist_ok=True)
-    seeded = [
-        {
-            "id": "11111111-1111-1111-1111-111111111111",
-            "content": "What is a Databricks cluster policy?",
-            "answer": "A set of rules that limits cluster configurations.",
-            "created_at": "2026-01-01T00:00:00+00:00",
-        },
-        {
-            "id": "22222222-2222-2222-2222-222222222222",
-            "content": "What is a Postgres B-tree index?",
-            "answer": "An ordered index structure good for range queries.",
-            "created_at": "2026-01-01T00:00:00+00:00",
-        },
-    ]
-    _write_jsonl(data_dir / "questions.jsonl", seeded)
-
-    async with open_mcp_session(data_dir) as mcp_session:
-        tools_result = await mcp_session.list_tools()
-        tools = mcp_tools_to_anthropic_tools(tools_result.tools)
-
-        prompt = "What questions do I have saved about databricks? Use the tool to look them up."
-        message = client.messages.create(
+        retrieve_message = client.messages.create(
             model=ANTHROPIC_MODEL,
             max_tokens=1024,
             tools=tools,
             tool_choice={"type": "any"},
-            messages=[{"role": "user", "content": prompt}],
+            messages=[{"role": "user", "content": retrieve_prompt}],
         )
+        retrieve_tool_use = _tool_use_block(retrieve_message)
+        retrieve_result = await mcp_session.call_tool(retrieve_tool_use.name, retrieve_tool_use.input)
 
-        tool_use = _tool_use_block(message)
-        assert tool_use.name == "retrieve_questions_by_topic"
+    # Assert
+    assert add_tool_use.name == "add_questions"
+    assert not add_result.isError, add_result.content
+    add_payload = _tool_result_payload(add_result)
+    assert add_payload["count"] == 2
 
-        result = await mcp_session.call_tool(tool_use.name, tool_use.input)
-        assert not result.isError, result.content
-
-    payload = _tool_result_payload(result)
-    assert len(payload) == 1
-    assert "cluster policy" in payload[0]["content"].lower()
+    assert retrieve_tool_use.name == "retrieve_questions_by_topic"
+    assert not retrieve_result.isError, retrieve_result.content
+    retrieve_payload = _tool_result_payload(retrieve_result)
+    assert len(retrieve_payload) == 1
+    assert "cluster policy" in retrieve_payload[0]["content"].lower()
