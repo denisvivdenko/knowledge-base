@@ -1,0 +1,22 @@
+services:
+  mcp-server:
+    build: .
+    env_file: .env
+    environment:
+      HOST: 0.0.0.0
+      PORT: 8000
+    volumes:
+      - knowledge-base-data:/root/.knowledge-base
+    restart: unless-stopped
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    command: tunnel --config /etc/cloudflared/config.yml run
+    volumes:
+      - ./cloudflared:/etc/cloudflared:ro
+    depends_on:
+      - mcp-server
+    restart: unless-stopped
+
+volumes:
+  knowledge-base-data:

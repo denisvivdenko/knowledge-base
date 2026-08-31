@@ -1,3 +1,6 @@
+# Cloudflare tunnel credentials (secret)
+cloudflared/*.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]

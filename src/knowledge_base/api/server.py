@@ -18,7 +18,11 @@ def _data_dir() -> Path:
 _repository = QuestionRepository(_data_dir() / "questions.jsonl")
 _knowledge_base = KnowledgeBase(_repository)
 
-mcp = FastMCP("knowledge-base")
+mcp = FastMCP(
+    "knowledge-base",
+    host=os.environ.get("HOST", "127.0.0.1"),
+    port=int(os.environ.get("PORT", "8000")),
+)
 
 
 class QuestionInput(BaseModel):
