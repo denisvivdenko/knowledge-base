@@ -2,6 +2,7 @@ services:
   mcp-server:
     build: .
     env_file: .env
+    profiles: ["prod", "dev"]
     environment:
       HOST: 0.0.0.0
       PORT: 8000
@@ -12,11 +13,22 @@ services:
   cloudflared:
     image: cloudflare/cloudflared:latest
     command: tunnel --config /etc/cloudflared/config.yml run
+    profiles: ["prod", "dev"]
     volumes:
       - ./cloudflared:/etc/cloudflared:ro
     depends_on:
       - mcp-server
     restart: unless-stopped
+
+  mcp-server-test:
+    build: .
+    profiles: ["test"]
+    environment:
+      HOST: 0.0.0.0
+      PORT: 8000
+      AUTH_TOKEN_HASH: ${TEST_AUTH_TOKEN_HASH}
+    ports:
+      - "8000:8000"
 
 volumes:
   knowledge-base-data:

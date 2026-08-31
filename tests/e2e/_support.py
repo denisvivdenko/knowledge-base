@@ -1,16 +1,13 @@
 import os
-import sys
 from contextlib import asynccontextmanager
-from pathlib import Path
 
 import pytest
-from mcp import ClientSession, StdioServerParameters
-from mcp.client.stdio import stdio_client
-
-REPO_ROOT = Path(__file__).resolve().parents[2]
-SERVER_SCRIPT = REPO_ROOT / "server.py"
+from mcp import ClientSession
+from mcp.client.streamable_http import streamablehttp_client
 
 ANTHROPIC_MODEL = "claude-haiku-4-5-20251001"
+
+TEST_SERVER_URL = "http://localhost:8000/mcp"
 
 
 def require_anthropic_api_key() -> str:
@@ -20,24 +17,27 @@ def require_anthropic_api_key() -> str:
     return api_key
 
 
-@asynccontextmanager
-async def open_mcp_session(data_dir):
-    """Connect to the real server over stdio for the lifetime of one test.
+def require_test_server_token() -> str:
+    token = os.environ.get("AUTH_TEST_TOKEN")
+    if not token:
+        pytest.skip("AUTH_TEST_TOKEN is not set")
+    return token
 
-    Deliberately not a pytest fixture: mcp's stdio_client/ClientSession use
-    anyio task groups internally, and anyio requires a cancel scope to be
-    exited from the same asyncio.Task it was entered in. pytest-asyncio runs
-    an async generator fixture's setup and its post-yield teardown as two
-    separate top-level tasks, which trips that check. Opening this inline
-    with `async with` inside the test keeps setup, use, and teardown in one
-    task.
+
+@asynccontextmanager
+async def open_mcp_session():
+    """Connect to the real server, run via `make test-e2e` (docker compose --profile test),
+    for the lifetime of one test.
+
+    Deliberately not a pytest fixture: mcp's client session uses anyio task
+    groups internally, and anyio requires a cancel scope to be exited from the
+    same asyncio.Task it was entered in. pytest-asyncio runs an async generator
+    fixture's setup and its post-yield teardown as two separate top-level
+    tasks, which trips that check. Opening this inline with `async with`
+    inside the test keeps setup, use, and teardown in one task.
     """
-    server_params = StdioServerParameters(
-        command=sys.executable,
-        args=[str(SERVER_SCRIPT)],
-        env={**os.environ, "KNOWLEDGE_BASE_DATA_DIR": str(data_dir)},
-    )
-    async with stdio_client(server_params) as (read, write):
+    headers = {"Authorization": f"Bearer {require_test_server_token()}"}
+    async with streamablehttp_client(TEST_SERVER_URL, headers=headers) as (read, write, _):
         async with ClientSession(read, write) as session:
             await session.initialize()
             yield session

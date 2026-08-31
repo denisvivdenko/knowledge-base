@@ -43,7 +43,7 @@ def _tool_result_payload(result):
     return json.loads(text_blocks[0])
 
 
-async def test_add_then_retrieve_questions_e2e_round_trips_via_real_llm_tool_calls(data_dir):
+async def test_add_then_retrieve_questions_e2e_round_trips_via_real_llm_tool_calls():
     # Arrange
     require_anthropic_api_key()
     client = Anthropic()
@@ -58,7 +58,7 @@ async def test_add_then_retrieve_questions_e2e_round_trips_via_real_llm_tool_cal
     )
     retrieve_prompt = "What questions do I have saved about databricks? Use the tool to look them up."
 
-    async with open_mcp_session(data_dir) as mcp_session:
+    async with open_mcp_session() as mcp_session:
         tools_result = await mcp_session.list_tools()
         tools = mcp_tools_to_anthropic_tools(tools_result.tools)
 
