@@ -3,5 +3,8 @@ credentials-file: /etc/cloudflared/3f1ea4b8-a1ef-4642-9ac7-604dd3573b50.json
 
 ingress:
   - hostname: knowledge-base.denysvivdenko.dev
+    path: ^/console(/.*)?$
+    service: http://streamlit:8501
+  - hostname: knowledge-base.denysvivdenko.dev
     service: http://mcp-server:8000
   - service: http_status:404

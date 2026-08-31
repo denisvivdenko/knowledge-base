@@ -10,6 +10,18 @@ services:
       - knowledge-base-data:/root/.knowledge-base
     restart: unless-stopped
 
+  streamlit:
+    build:
+      context: .
+      dockerfile: Dockerfile.ui
+    env_file: .env
+    profiles: ["prod", "dev"]
+    environment:
+      KNOWLEDGE_BASE_DATA_DIR: /root/.knowledge-base
+    volumes:
+      - knowledge-base-data:/root/.knowledge-base:ro
+    restart: unless-stopped
+
   cloudflared:
     image: cloudflare/cloudflared:latest
     command: tunnel --config /etc/cloudflared/config.yml run
@@ -18,6 +30,7 @@ services:
       - ./cloudflared:/etc/cloudflared:ro
     depends_on:
       - mcp-server
+      - streamlit
     restart: unless-stopped
 
   mcp-server-test:
