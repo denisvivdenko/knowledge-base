@@ -40,6 +40,8 @@ services:
       HOST: 0.0.0.0
       PORT: 8000
       AUTH_TOKEN_HASH: ${TEST_AUTH_TOKEN_HASH}
+    volumes:
+      - ${KNOWLEDGE_BASE_DATA_DIR:-./.test-data}:/root/.knowledge-base
     ports:
       - "8000:8000"
 

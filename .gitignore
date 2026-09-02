@@ -222,3 +222,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Local test data dir shared with the dockerized e2e test server
+.test-data/

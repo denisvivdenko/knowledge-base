@@ -19,3 +19,6 @@ class QuestionRepository:
             return []
         with self._file_path.open("r") as f:
             return [Question.model_validate_json(line) for line in f if line.strip()]
+
+    def drop(self) -> None:
+        self._file_path.unlink(missing_ok=True)

@@ -48,3 +48,25 @@ def retrieve_questions_by_topic(topic: str) -> list[dict]:
     """Retrieve previously saved questions whose content matches the given topic."""
     matches = _knowledge_base.sample_by_topic(topic)
     return [question.model_dump(mode="json") for question in matches]
+
+
+@mcp.prompt()
+def process_conversation() -> str:
+    """Review this conversation and propose knowledge base question drafts."""
+    return (
+        "Review this conversation and propose a draft of questions to submit "
+        "to the knowledge base, following these steps in order:\n\n"
+        "1. Identify the topic(s) discussed in this conversation, then call "
+        "retrieve_questions_by_topic for each one to see what is already "
+        "saved. Do not propose a question that is already covered.\n"
+        "2. Based on what's missing, draft candidate questions (content + "
+        "answer) worth adding. Optimize for quality, not quantity: only "
+        "propose a question if it captures something genuinely useful, "
+        "non-obvious, or reusable from this conversation. If nothing in the "
+        "conversation clears that bar, say so explicitly and propose "
+        "nothing — do not pad the list just to have something to submit.\n"
+        "3. Present the drafted questions to the user and wait for their "
+        "explicit approval. Only call add_questions after the user has "
+        "approved the questions to submit — never submit on your own "
+        "judgement, and never submit questions the user hasn't seen."
+    )

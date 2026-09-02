@@ -43,7 +43,7 @@ def _tool_result_payload(result):
     return json.loads(text_blocks[0])
 
 
-async def test_add_then_retrieve_questions_e2e_round_trips_via_real_llm_tool_calls():
+async def test_add_questions():
     # Arrange
     require_anthropic_api_key()
     client = Anthropic()

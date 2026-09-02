@@ -55,3 +55,20 @@ def test_data_persists_across_separate_repository_instances(repo_path):
     loaded = QuestionRepository(repo_path).load_all()
 
     assert len(loaded) == 1
+
+
+def test_drop_removes_all_saved_questions(repo_path):
+    repo = QuestionRepository(repo_path)
+    repo.save([make_question()])
+
+    repo.drop()
+
+    assert repo.load_all() == []
+
+
+def test_drop_is_a_noop_when_no_file_exists(repo_path):
+    repo = QuestionRepository(repo_path)
+
+    repo.drop()
+
+    assert repo.load_all() == []
