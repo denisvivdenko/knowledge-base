@@ -6,8 +6,6 @@ natural-language prompt, the same way Claude Code or Claude Desktop would.
 They require ANTHROPIC_API_KEY and network access; they are skipped otherwise.
 """
 
-import json
-
 from anthropic import Anthropic
 
 from _support import (
@@ -15,32 +13,9 @@ from _support import (
     mcp_tools_to_anthropic_tools,
     open_mcp_session,
     require_anthropic_api_key,
+    tool_result_payload,
+    tool_use_block,
 )
-
-
-def _tool_use_block(message):
-    for block in message.content:
-        if block.type == "tool_use":
-            return block
-    raise AssertionError(f"model did not call a tool: {message.content}")
-
-
-def _tool_result_payload(result):
-    """Extract the JSON payload from a CallToolResult.
-
-    FastMCP represents dict returns as a single JSON text block
-    (structuredContent is None), but list returns as structuredContent
-    wrapped in {"result": [...]} plus one text block per item — so a single
-    "parse content[0] as JSON" approach doesn't work for both shapes.
-    """
-    if result.structuredContent is not None:
-        data = result.structuredContent
-        if isinstance(data, dict) and data.keys() == {"result"}:
-            return data["result"]
-        return data
-    text_blocks = [block.text for block in result.content if block.type == "text"]
-    assert text_blocks, f"tool call returned no text content: {result.content}"
-    return json.loads(text_blocks[0])
 
 
 async def test_add_questions():
@@ -70,7 +45,7 @@ async def test_add_questions():
             tool_choice={"type": "any"},
             messages=[{"role": "user", "content": add_prompt}],
         )
-        add_tool_use = _tool_use_block(add_message)
+        add_tool_use = tool_use_block(add_message)
         add_result = await mcp_session.call_tool(add_tool_use.name, add_tool_use.input)
 
         retrieve_message = client.messages.create(
@@ -80,17 +55,17 @@ async def test_add_questions():
             tool_choice={"type": "any"},
             messages=[{"role": "user", "content": retrieve_prompt}],
         )
-        retrieve_tool_use = _tool_use_block(retrieve_message)
+        retrieve_tool_use = tool_use_block(retrieve_message)
         retrieve_result = await mcp_session.call_tool(retrieve_tool_use.name, retrieve_tool_use.input)
 
     # Assert
     assert add_tool_use.name == "add_questions"
     assert not add_result.isError, add_result.content
-    add_payload = _tool_result_payload(add_result)
+    add_payload = tool_result_payload(add_result)
     assert add_payload["count"] == 2
 
     assert retrieve_tool_use.name == "retrieve_questions_by_topic"
     assert not retrieve_result.isError, retrieve_result.content
-    retrieve_payload = _tool_result_payload(retrieve_result)
+    retrieve_payload = tool_result_payload(retrieve_result)
     assert len(retrieve_payload) == 1
     assert "cluster policy" in retrieve_payload[0]["content"].lower()
