@@ -19,7 +19,7 @@ services:
     environment:
       KNOWLEDGE_BASE_DATA_DIR: /root/.knowledge-base
     volumes:
-      - knowledge-base-data:/root/.knowledge-base:ro
+      - knowledge-base-data:/root/.knowledge-base
     restart: unless-stopped
 
   cloudflared:
