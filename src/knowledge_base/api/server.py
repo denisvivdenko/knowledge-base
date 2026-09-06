@@ -16,10 +16,8 @@ def _data_dir() -> Path:
     return Path(os.environ.get("KNOWLEDGE_BASE_DATA_DIR", DEFAULT_DATA_DIR))
 
 
-_repository = QuestionRepository(_data_dir() / "questions.jsonl")
-_search = SemanticSearch()
-_search.add(_repository.load_all())
-_knowledge_base = KnowledgeBase(_repository, _search)
+_repository = QuestionRepository(_data_dir() / "questions.jsonl", SemanticSearch())
+_knowledge_base = KnowledgeBase(_repository)
 
 mcp = FastMCP(
     "knowledge-base",

@@ -72,8 +72,8 @@ def _get_semantic_search() -> SemanticSearch:
     return SemanticSearch()
 
 
-def _question_repository() -> QuestionRepository:
-    return QuestionRepository(_data_dir() / "questions.jsonl")
+def _question_repository(search: SemanticSearch) -> QuestionRepository:
+    return QuestionRepository(_data_dir() / "questions.jsonl", search)
 
 
 def _goal_repository() -> GoalRepository:
@@ -95,15 +95,14 @@ def _render_questions(questions: list[Question]) -> None:
 
 
 def questions_page() -> None:
-    all_questions = _question_repository().load_all()
-
     semantic_search = _get_semantic_search()
     semantic_search.drop()
-    semantic_search.add(all_questions)
+    repository = _question_repository(semantic_search)
+    all_questions = repository.load_all()
 
     search_query = st.text_input("Search", placeholder="Search questions by topic...")
     if search_query:
-        questions = semantic_search.search(search_query)
+        questions = repository.search_by_topic(search_query)
     else:
         questions = sorted(all_questions, key=lambda q: q.created_at, reverse=True)
 
@@ -144,12 +143,11 @@ def goal_questions_page() -> None:
 
     st.subheader(goal.content)
 
-    all_questions = _question_repository().load_all()
     semantic_search = _get_semantic_search()
     semantic_search.drop()
-    semantic_search.add(all_questions)
+    repository = _question_repository(semantic_search)
 
-    _render_questions(semantic_search.search(goal.content))
+    _render_questions(repository.search_by_topic(goal.content))
 
 
 st.set_page_config(page_title="Knowledge Base", page_icon="🧠", layout="centered")

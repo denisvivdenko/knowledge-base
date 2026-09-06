@@ -21,8 +21,8 @@ def eval_records() -> list[dict]:
 
 @pytest.fixture
 def kb(tmp_path, eval_records) -> KnowledgeBase:
-    repo = QuestionRepository(tmp_path / "questions.jsonl")
-    kb = KnowledgeBase(repo, SemanticSearch())
+    repo = QuestionRepository(tmp_path / "questions.jsonl", SemanticSearch())
+    kb = KnowledgeBase(repo)
     kb.add_questions(
         questions=[
             Question(id=UUID(record["id"]), content=record["content"], answer=record["answer"])

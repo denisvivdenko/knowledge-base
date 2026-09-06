@@ -33,8 +33,8 @@ def _drop_search_index(search):
 
 @pytest.fixture
 def kb(tmp_path, search) -> KnowledgeBase:
-    repo = QuestionRepository(tmp_path / "questions.jsonl")
-    return KnowledgeBase(repo, search)
+    repo = QuestionRepository(tmp_path / "questions.jsonl", search)
+    return KnowledgeBase(repo)
 
 
 def test_retrieve_by_topic_returns_added_questions_matching_the_topic(kb):
@@ -86,3 +86,14 @@ def test_retrieve_by_topic_updates_the_index_incrementally_as_questions_are_adde
     retrieved_questions = kb.retrieve_by_topic(topic="databricks")
     assert first_question in retrieved_questions
     assert second_question in retrieved_questions
+
+
+def test_retrieve_by_topic_reflects_questions_saved_through_a_separate_repository_instance(tmp_path, search):
+    questions_path = tmp_path / "questions.jsonl"
+    databricks_question = make_question(content="What is a Databricks cluster policy?")
+    QuestionRepository(questions_path, SemanticSearch()).save([databricks_question])
+    kb = KnowledgeBase(QuestionRepository(questions_path, search))
+
+    retrieved_questions = kb.retrieve_by_topic(topic="databricks")
+
+    assert retrieved_questions == [databricks_question]
