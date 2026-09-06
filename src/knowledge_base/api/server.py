@@ -7,6 +7,7 @@ from pydantic import BaseModel
 from knowledge_base.domain.question import Question
 from knowledge_base.repositories.question_repository import QuestionRepository
 from knowledge_base.services.knowledge_base import KnowledgeBase
+from knowledge_base.services.semantic_search import SemanticSearch
 
 DEFAULT_DATA_DIR = Path.home() / ".knowledge-base"
 
@@ -16,7 +17,9 @@ def _data_dir() -> Path:
 
 
 _repository = QuestionRepository(_data_dir() / "questions.jsonl")
-_knowledge_base = KnowledgeBase(_repository)
+_search = SemanticSearch()
+_search.add(_repository.load_all())
+_knowledge_base = KnowledgeBase(_repository, _search)
 
 mcp = FastMCP(
     "knowledge-base",

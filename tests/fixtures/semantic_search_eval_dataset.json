@@ -1,0 +1,602 @@
+[
+  {
+    "id": "fcf3f6be-4c98-4de5-8c68-11c89cb6d4c2",
+    "topic": "databricks",
+    "content": "What is a Databricks cluster policy?",
+    "answer": "A set of rules that restrict the configurations users can choose when creating a cluster."
+  },
+  {
+    "id": "511aaed6-c3b9-4cb7-b0c5-265f38c12cd0",
+    "topic": "databricks",
+    "content": "How does Unity Catalog manage table access permissions in Databricks?",
+    "answer": "It provides centralized governance with grants on catalogs, schemas, and tables."
+  },
+  {
+    "id": "13cef897-bcfc-4bb1-9324-40d7114c9b70",
+    "topic": "databricks",
+    "content": "What is the difference between a Databricks job cluster and an all-purpose cluster?",
+    "answer": "Job clusters are created for a single job run and terminated after, while all-purpose clusters stay up for interactive use."
+  },
+  {
+    "id": "139f6f17-f710-49ec-9275-e2edce9b1c94",
+    "topic": "databricks",
+    "content": "How does Databricks Auto Loader ingest new files incrementally?",
+    "answer": "It uses cloud notification services or directory listing to track and process new files as they arrive."
+  },
+  {
+    "id": "b981bfc0-f0a8-4c31-9196-8dc83ae5176d",
+    "topic": "databricks",
+    "content": "What is a Databricks notebook used for?",
+    "answer": "Writing and running code interactively in cells, mixing SQL, Python, Scala, and markdown."
+  },
+  {
+    "id": "aa71629a-99bc-4cef-b2ab-42ee9af1aba3",
+    "topic": "databricks",
+    "content": "How do you schedule a recurring Databricks job?",
+    "answer": "By configuring a job trigger with a cron schedule in the Jobs UI or API."
+  },
+  {
+    "id": "95dda18e-2330-4088-9ea2-a665e8771b59",
+    "topic": "databricks",
+    "content": "What is Delta Lake's role in a Databricks lakehouse?",
+    "answer": "It adds ACID transactions and versioning on top of files stored in cloud object storage."
+  },
+  {
+    "id": "663f007b-c8aa-47d7-b89f-e1fb4f76a16c",
+    "topic": "databricks",
+    "content": "How does Databricks Repos integrate with a source control provider?",
+    "answer": "It lets you clone, commit, and pull from a remote repository directly inside the workspace."
+  },
+  {
+    "id": "3eeabb95-5182-4711-ac43-654124f63ad5",
+    "topic": "databricks",
+    "content": "What does MLflow tracking store when used inside Databricks?",
+    "answer": "Parameters, metrics, artifacts, and model versions for each experiment run."
+  },
+  {
+    "id": "62604cd7-e0db-4bf8-93d6-3974368deb3f",
+    "topic": "databricks",
+    "content": "How do you mount cloud storage in the Databricks File System (DBFS)?",
+    "answer": "By configuring a mount point that maps a cloud path to a DBFS path using storage credentials."
+  },
+  {
+    "id": "dde3333e-abf7-4784-bebb-9c02a2ba6405",
+    "topic": "databricks",
+    "content": "What is the purpose of a Databricks SQL warehouse?",
+    "answer": "A compute resource optimized for running SQL queries and dashboards."
+  },
+  {
+    "id": "4656b104-7024-42fa-a5bc-69658d71e121",
+    "topic": "databricks",
+    "content": "How does Databricks handle secret management?",
+    "answer": "Through secret scopes backed by Databricks-managed storage or Azure Key Vault."
+  },
+  {
+    "id": "e1b9e8c1-b0c4-42a7-a240-9aa7730be826",
+    "topic": "databricks",
+    "content": "How can an admin restrict what compute configurations users are allowed to launch on a managed Spark platform?",
+    "answer": "By attaching a compute policy that limits instance types, autoscaling ranges, and permissions."
+  },
+  {
+    "id": "cdac976e-1030-41e8-8cbd-61cb30ca4350",
+    "topic": "databricks",
+    "content": "How does a lakehouse-style analytics service pick up newly landed files for ingestion automatically?",
+    "answer": "It watches the storage location via notifications or listing and loads only unseen files."
+  },
+  {
+    "id": "7c4c2cc1-02ba-4ab9-93f0-f9db269f08ec",
+    "topic": "databricks",
+    "content": "What lets multiple engines share governed access to the same tables across catalogs and schemas?",
+    "answer": "A unified data governance layer that manages grants at every level of the hierarchy."
+  },
+  {
+    "id": "7cec9b34-3525-4b75-bdba-b2988888320a",
+    "topic": "databricks",
+    "content": "How do interactive notebooks combining SQL, Python, and visualizations get executed on managed compute?",
+    "answer": "The notebook cells are sent to an attached cluster which executes them and returns results inline."
+  },
+  {
+    "id": "0c3e08a7-4104-45c8-be44-0ed9ada387f2",
+    "topic": "databricks",
+    "content": "What technology adds ACID transactions and time travel to plain Parquet files in cloud storage?",
+    "answer": "An open table format layer that maintains a transaction log alongside the data files."
+  },
+  {
+    "id": "9f91e6e3-eace-4083-9194-3daadb6380a7",
+    "topic": "databricks",
+    "content": "How do teams track experiment parameters, metrics, and model artifacts during model development?",
+    "answer": "With an experiment tracking tool that logs each run's inputs and outputs centrally."
+  },
+  {
+    "id": "7f43ab68-e2e1-43c7-bdc3-a176964f7fb2",
+    "topic": "databricks",
+    "content": "How does a managed analytics workspace let you version-control notebooks with a source control provider?",
+    "answer": "By linking a workspace folder to a remote repository for clone, commit, and pull operations."
+  },
+  {
+    "id": "569bead4-d45c-497e-808f-5962fc4ce820",
+    "topic": "databricks",
+    "content": "What kind of compute resource is optimized specifically for running SQL queries and BI dashboards in a lakehouse?",
+    "answer": "A dedicated SQL-serving warehouse tuned for concurrent query workloads."
+  },
+  {
+    "id": "1a6d620b-8cc8-449c-a163-1f8b4ac1d291",
+    "topic": "postgres",
+    "content": "What is a Postgres B-tree index?",
+    "answer": "A balanced tree structure that speeds up equality and range lookups on indexed columns."
+  },
+  {
+    "id": "91dee8a5-ed31-420e-8f67-2bf13f042f6b",
+    "topic": "postgres",
+    "content": "How does MVCC handle concurrent transactions in Postgres?",
+    "answer": "Each transaction sees a consistent snapshot of rows without blocking readers and writers."
+  },
+  {
+    "id": "87639b65-3893-45cf-9ec4-8a14daae70e0",
+    "topic": "postgres",
+    "content": "What is the purpose of the VACUUM command in Postgres?",
+    "answer": "It reclaims storage occupied by dead tuples and updates statistics for the planner."
+  },
+  {
+    "id": "b19ce52c-14fb-4304-ae50-29390138afbf",
+    "topic": "postgres",
+    "content": "How do you set up streaming replication between two Postgres servers?",
+    "answer": "By configuring a primary to ship WAL segments to a standby that continuously replays them."
+  },
+  {
+    "id": "7ed201a5-93c9-4c66-a8db-bce68e21c728",
+    "topic": "postgres",
+    "content": "What is the Postgres write-ahead log (WAL) used for?",
+    "answer": "Durably recording changes before they're applied, enabling crash recovery and replication."
+  },
+  {
+    "id": "128545b0-7161-4c35-98cd-8c328e2cac32",
+    "topic": "postgres",
+    "content": "How do you create a partial index in Postgres?",
+    "answer": "By adding a WHERE clause to the CREATE INDEX statement so only matching rows are indexed."
+  },
+  {
+    "id": "fdab370b-8045-4126-96d0-a6a09c280c95",
+    "topic": "postgres",
+    "content": "What does the pg_stat_statements extension track in Postgres?",
+    "answer": "Execution statistics for every distinct query run against the database."
+  },
+  {
+    "id": "b3c21fe8-4a1b-47cb-b6fc-0244cb52a5ad",
+    "topic": "postgres",
+    "content": "How does Postgres handle JSONB columns differently from JSON?",
+    "answer": "JSONB stores data in a decomposed binary format that's faster to query and index."
+  },
+  {
+    "id": "97939734-d14d-4036-8b96-9aa4329538a5",
+    "topic": "postgres",
+    "content": "What is a Postgres sequence used for?",
+    "answer": "Generating unique, incrementing numeric values, commonly for primary keys."
+  },
+  {
+    "id": "775a6ae7-dbfa-4eac-8db6-b5f5ccfddc0a",
+    "topic": "postgres",
+    "content": "How do you perform a logical backup of a Postgres database?",
+    "answer": "Using pg_dump to export schema and data into a portable archive file."
+  },
+  {
+    "id": "582fb8b9-561c-44e4-9d79-88c4c8a84f95",
+    "topic": "postgres",
+    "content": "What is connection pooling used for with Postgres?",
+    "answer": "Reusing a limited set of database connections to reduce overhead from frequent client connects."
+  },
+  {
+    "id": "28823697-5615-4d56-a556-ff13240f8194",
+    "topic": "postgres",
+    "content": "How does Postgres enforce foreign key constraints?",
+    "answer": "By checking referenced rows exist before allowing inserts or updates and restricting deletes that would break references."
+  },
+  {
+    "id": "999462b3-3308-46fc-8e15-80e0912878f0",
+    "topic": "postgres",
+    "content": "How does a relational database engine avoid blocking readers while writers are actively modifying rows?",
+    "answer": "It gives each transaction its own consistent snapshot instead of taking read locks."
+  },
+  {
+    "id": "61914a5d-0505-408e-97a9-376b965de16e",
+    "topic": "postgres",
+    "content": "Why does an open source SQL database need periodic cleanup of dead row versions?",
+    "answer": "Old row versions from updates and deletes accumulate and must be reclaimed to keep tables compact."
+  },
+  {
+    "id": "d3fdd4c3-69be-4334-af30-955b732512d3",
+    "topic": "postgres",
+    "content": "How can two database servers stay in sync by continuously shipping change logs?",
+    "answer": "A primary streams its write-ahead log to a standby that replays it to mirror the data."
+  },
+  {
+    "id": "778dd256-0847-4e26-b4d8-dd6bce96f80f",
+    "topic": "postgres",
+    "content": "What kind of index structure speeds up range queries like finding all values between X and Y?",
+    "answer": "A balanced tree index that keeps sorted keys for fast range scans."
+  },
+  {
+    "id": "565c8316-30c7-47ee-b132-fe1b29d93ec7",
+    "topic": "postgres",
+    "content": "How can you index only a subset of rows that match a condition, instead of an entire table?",
+    "answer": "By defining an index with a filter predicate so it only covers the qualifying rows."
+  },
+  {
+    "id": "3c3be0ce-33eb-4613-a7d2-eee25db3a231",
+    "topic": "postgres",
+    "content": "What lets you inspect which queries are consuming the most time across an entire SQL database?",
+    "answer": "A statistics-collecting extension that aggregates execution counts and timings per query."
+  },
+  {
+    "id": "4598961d-9dfe-473b-99a9-bee25f0e2a6d",
+    "topic": "postgres",
+    "content": "How do applications avoid the overhead of opening a new database connection for every request?",
+    "answer": "By reusing a shared pool of already-open connections."
+  },
+  {
+    "id": "c670423a-eb59-4e1b-a390-0b45067b564e",
+    "topic": "postgres",
+    "content": "How does a relational database guarantee that a value in one table always exists in another?",
+    "answer": "Through a referential constraint that validates the linked row exists before permitting the change."
+  },
+  {
+    "id": "4eeda7b9-5004-4b77-9b63-629581015625",
+    "topic": "git",
+    "content": "What is a Git branch?",
+    "answer": "A movable pointer to a commit that lets you develop features in isolation from the main line of history."
+  },
+  {
+    "id": "4b65fbba-9439-494c-b689-7dbae9264598",
+    "topic": "git",
+    "content": "How does a Git rebase differ from a merge?",
+    "answer": "Rebase rewrites commit history onto a new base, while merge creates a new commit joining two histories."
+  },
+  {
+    "id": "af260b03-9559-4df3-bf81-d9d7010596a2",
+    "topic": "git",
+    "content": "What is a Git commit?",
+    "answer": "A saved snapshot of the repository's tracked changes along with a message describing them."
+  },
+  {
+    "id": "e9ca1541-35b1-429f-9740-46a08137309c",
+    "topic": "git",
+    "content": "How does git stash temporarily save changes?",
+    "answer": "It shelves uncommitted modifications so the working directory can be cleaned without losing work."
+  },
+  {
+    "id": "8aef9308-56df-4d88-ba57-6b74b008536c",
+    "topic": "git",
+    "content": "What is the purpose of a .gitignore file?",
+    "answer": "Listing file patterns that Git should never track or stage."
+  },
+  {
+    "id": "5d9ec703-2c79-4622-8a27-9f62e6d8328b",
+    "topic": "git",
+    "content": "How does git cherry-pick apply a single commit to another branch?",
+    "answer": "It replays the changes introduced by that commit onto the current branch as a new commit."
+  },
+  {
+    "id": "925c4b5d-6ff7-47ac-b662-1085f10333c0",
+    "topic": "git",
+    "content": "What happens during a Git merge conflict?",
+    "answer": "Git can't automatically reconcile overlapping changes and asks the user to resolve them manually."
+  },
+  {
+    "id": "69d14362-e84b-4a40-bf2d-e68ec15aefa7",
+    "topic": "git",
+    "content": "How does git bisect help find the commit that introduced a bug?",
+    "answer": "It performs a binary search through commit history, testing at each step until the offending commit is isolated."
+  },
+  {
+    "id": "ddb4b15e-0764-4ace-8fe1-026d71c83480",
+    "topic": "git",
+    "content": "What is the difference between git fetch and git pull?",
+    "answer": "Fetch downloads new history without merging it, while pull fetches and immediately merges."
+  },
+  {
+    "id": "a1641aa3-7180-4ead-af84-8dab0219d421",
+    "topic": "git",
+    "content": "How does a Git tag differ from a branch?",
+    "answer": "A tag marks a specific commit permanently, while a branch pointer moves as new commits are added."
+  },
+  {
+    "id": "38a1d987-8381-4b9e-b7b2-bd8ff976b133",
+    "topic": "git",
+    "content": "What does git reset --hard do?",
+    "answer": "It moves the branch pointer and discards all working directory and staged changes to match the target commit."
+  },
+  {
+    "id": "f7704c6d-be88-4544-93f6-a509849fdcf5",
+    "topic": "git",
+    "content": "How does the Git staging area (index) work?",
+    "answer": "It holds the changes selected to be included in the next commit before they're finalized."
+  },
+  {
+    "id": "44ef012f-7763-41b1-865f-0ce79edff4cd",
+    "topic": "git",
+    "content": "How can you rewrite a series of commits onto an updated base so history looks linear?",
+    "answer": "By replaying each commit's changes on top of the new starting point instead of merging."
+  },
+  {
+    "id": "0a0bff19-1f14-4134-90e8-83efbd0c5d17",
+    "topic": "git",
+    "content": "How do developers temporarily set aside uncommitted work without losing it?",
+    "answer": "By shelving the changes in a separate storage area to restore later."
+  },
+  {
+    "id": "62586117-2f8a-4b0a-bcaf-f8aa1cba7f63",
+    "topic": "git",
+    "content": "What lets a version control tool skip tracking generated files like build artifacts?",
+    "answer": "An ignore list of file patterns excluded from tracking."
+  },
+  {
+    "id": "c9048610-33e5-4fa8-869b-31c523511939",
+    "topic": "git",
+    "content": "How can a single change from one line of development be applied onto a different one without merging everything?",
+    "answer": "By replaying just that one recorded change as a new entry on the target line."
+  },
+  {
+    "id": "e6e66dfd-189c-4c56-9863-1797e8ae3185",
+    "topic": "git",
+    "content": "What happens when two independent sets of edits touch the same lines and can't be automatically combined?",
+    "answer": "The tool flags the overlapping sections and requires a person to choose how to reconcile them."
+  },
+  {
+    "id": "078d4c9d-eeae-431d-9dd1-dd9f45d9fef2",
+    "topic": "git",
+    "content": "How can a team pinpoint which exact change in a long history introduced a regression?",
+    "answer": "By testing revisions with a binary search that narrows down to the exact point."
+  },
+  {
+    "id": "a5aed3f5-724a-481b-9cf2-eb3478a64579",
+    "topic": "git",
+    "content": "What separates downloading new history from a remote from actually incorporating it into your current work?",
+    "answer": "One step only retrieves the new history, while a combined step also merges it in."
+  },
+  {
+    "id": "d2844841-3325-488c-87a5-562d18f6a0af",
+    "topic": "git",
+    "content": "How does a permanent marker on a specific point in history differ from a pointer that keeps moving forward?",
+    "answer": "One stays fixed on that exact point forever, while the other advances as new work is added."
+  },
+  {
+    "id": "782f74a2-890c-4027-b0b0-e5900457d40c",
+    "topic": "kafka",
+    "content": "What is a Kafka topic?",
+    "answer": "A named, append-only log that producers write to and consumers read from."
+  },
+  {
+    "id": "319b6402-dfc9-4fc9-8850-0f2c5407e9a6",
+    "topic": "kafka",
+    "content": "How does Kafka use partitions within a topic?",
+    "answer": "It splits a topic into ordered partitions to allow parallel reads and writes."
+  },
+  {
+    "id": "81870149-e18b-4a55-b9ec-1d3a008165b7",
+    "topic": "kafka",
+    "content": "What is a Kafka consumer group?",
+    "answer": "A set of consumers that share the work of reading a topic's partitions cooperatively."
+  },
+  {
+    "id": "556e440d-0f17-4615-a046-9dd04e894606",
+    "topic": "kafka",
+    "content": "How does Kafka track a consumer's position in a partition?",
+    "answer": "Through a committed offset that marks the last record processed."
+  },
+  {
+    "id": "7914b86d-045e-484a-9260-7cca520236e0",
+    "topic": "kafka",
+    "content": "What role do Kafka brokers play in a cluster?",
+    "answer": "They store partition data and serve produce and fetch requests from clients."
+  },
+  {
+    "id": "d079837f-1786-45ee-9a68-49443fe2c9d6",
+    "topic": "kafka",
+    "content": "How does Kafka's replication factor improve durability?",
+    "answer": "It keeps copies of each partition on multiple brokers so data survives broker failures."
+  },
+  {
+    "id": "a4c1a6d9-7e78-433f-9b74-c8bbda6e84f0",
+    "topic": "kafka",
+    "content": "What is KRaft mode in newer Kafka versions?",
+    "answer": "A built-in consensus protocol that removes the dependency on ZooKeeper for metadata management."
+  },
+  {
+    "id": "6e2db1aa-1a09-479d-b9fa-461baff3c651",
+    "topic": "kafka",
+    "content": "How does a Kafka producer decide which partition to send a message to?",
+    "answer": "By a configured partitioner, often based on a message key's hash."
+  },
+  {
+    "id": "187ca82d-434c-4c4c-832a-843c55bb9885",
+    "topic": "kafka",
+    "content": "What is log compaction in Kafka?",
+    "answer": "A cleanup policy that retains only the latest value per key instead of deleting by time."
+  },
+  {
+    "id": "16a85c8a-1a98-4393-9dcc-46857dfc0501",
+    "topic": "kafka",
+    "content": "How does Kafka guarantee ordering of messages?",
+    "answer": "Ordering is guaranteed only within a single partition, not across the whole topic."
+  },
+  {
+    "id": "a37e7fb7-ad82-43fe-8062-7efebc2c0619",
+    "topic": "kafka",
+    "content": "What is the purpose of Kafka Connect?",
+    "answer": "Running reusable connectors to stream data between Kafka and external systems."
+  },
+  {
+    "id": "9831d28c-741c-42c7-8373-b054cf7f2ed0",
+    "topic": "kafka",
+    "content": "How do Kafka consumers handle rebalancing?",
+    "answer": "Partitions are reassigned among group members whenever membership changes."
+  },
+  {
+    "id": "fecedcc5-ba3d-4be4-9c2f-da01408f64b2",
+    "topic": "kafka",
+    "content": "What is a distributed, append-only log that producers write records into and consumers read from?",
+    "answer": "An ordered, durable stream that persists records in the sequence they arrive."
+  },
+  {
+    "id": "dde83624-8284-42f2-973f-cb29ee01c49f",
+    "topic": "kafka",
+    "content": "How does an event-streaming system split a stream into independently ordered segments for parallelism?",
+    "answer": "It divides the log into multiple ordered partitions distributed across the cluster."
+  },
+  {
+    "id": "08d5c476-c407-4bfd-9b3e-9804525161cb",
+    "topic": "kafka",
+    "content": "How do multiple readers share the work of consuming the same stream without duplicating effort?",
+    "answer": "They form a coordinated group where each partition is assigned to exactly one member at a time."
+  },
+  {
+    "id": "23b97203-b3b1-4c6a-94f7-ba225046325b",
+    "topic": "kafka",
+    "content": "How does a message broker keep multiple copies of data so it survives a server failure?",
+    "answer": "It replicates each partition's data to a configurable number of additional brokers."
+  },
+  {
+    "id": "cb3d79ac-ae13-4e2e-af9d-a40808d669a2",
+    "topic": "kafka",
+    "content": "What replaced the external coordination service that older streaming platforms relied on for cluster metadata?",
+    "answer": "A built-in consensus mechanism integrated directly into the brokers."
+  },
+  {
+    "id": "5ac55047-3b11-4183-b7aa-11e10dbd13e3",
+    "topic": "kafka",
+    "content": "How can a stream retain only the most recent update per key instead of expiring records after a fixed time?",
+    "answer": "A compaction policy periodically discards older values while keeping the latest per key."
+  },
+  {
+    "id": "f100c651-2469-4685-8398-55fe20cd64e8",
+    "topic": "kafka",
+    "content": "How do connectors move data continuously between a streaming platform and external databases or storage?",
+    "answer": "They run as managed integrations that read from or write to the stream and the external system."
+  },
+  {
+    "id": "51cbe108-1ee0-4a36-834a-ef849224c5c6",
+    "topic": "kafka",
+    "content": "What happens to partition assignments when a member joins or leaves a group of stream readers?",
+    "answer": "The group triggers a rebalance that redistributes partitions across the remaining members."
+  },
+  {
+    "id": "1591bc27-3ce9-4bcf-b417-fb8e1c4c8410",
+    "topic": "terraform",
+    "content": "What is a Terraform provider?",
+    "answer": "A plugin that lets Terraform manage resources for a specific cloud or service."
+  },
+  {
+    "id": "85e0c806-11ad-477e-b9c9-6e16c49816e7",
+    "topic": "terraform",
+    "content": "How does Terraform track the current state of infrastructure?",
+    "answer": "It maintains a state file that maps configuration resources to real infrastructure objects."
+  },
+  {
+    "id": "6f79de18-505b-4fd2-9013-31ff67b5fd35",
+    "topic": "terraform",
+    "content": "What does terraform plan do?",
+    "answer": "It shows what changes Terraform would make without actually applying them."
+  },
+  {
+    "id": "3f93c61d-3e26-4d78-ab88-2364f58708ad",
+    "topic": "terraform",
+    "content": "How does terraform apply change infrastructure?",
+    "answer": "It executes the actions needed to reach the desired state described in the configuration."
+  },
+  {
+    "id": "93676b0f-5451-4ac9-8825-e5395a7bbbe1",
+    "topic": "terraform",
+    "content": "What is a Terraform module used for?",
+    "answer": "Packaging a reusable set of resources that can be called with different input variables."
+  },
+  {
+    "id": "4db4c20d-9df5-43d0-88e6-96cf00227dd8",
+    "topic": "terraform",
+    "content": "How does Terraform handle resource dependencies?",
+    "answer": "It builds a dependency graph and orders resource creation and destruction accordingly."
+  },
+  {
+    "id": "c3ebe923-670f-4d27-9215-dfe2fdf8d82e",
+    "topic": "terraform",
+    "content": "What is the purpose of a Terraform backend?",
+    "answer": "Storing and locking the state file remotely so teams can collaborate safely."
+  },
+  {
+    "id": "decfb3c6-42e7-4899-8e26-6fea929083b9",
+    "topic": "terraform",
+    "content": "How do Terraform variables let you parameterize a configuration?",
+    "answer": "By declaring input variables that can be set via files, flags, or environment variables."
+  },
+  {
+    "id": "6c6509bc-49aa-4ec3-99c6-b5f864a36ea5",
+    "topic": "terraform",
+    "content": "What is a Terraform output value used for?",
+    "answer": "Exposing computed or resource attribute values for use by other configurations or the CLI."
+  },
+  {
+    "id": "e33898bc-e741-4183-b9b2-b8f0223a5e78",
+    "topic": "terraform",
+    "content": "How does terraform destroy remove infrastructure?",
+    "answer": "It deletes every resource tracked in the current state in reverse dependency order."
+  },
+  {
+    "id": "5afd1b48-dde0-4a8c-abe6-56be55de5ed1",
+    "topic": "terraform",
+    "content": "What is the purpose of Terraform workspaces?",
+    "answer": "Managing multiple distinct states from the same configuration, often for different environments."
+  },
+  {
+    "id": "54ed2452-bff8-418b-9247-67f598160651",
+    "topic": "terraform",
+    "content": "How does Terraform lock state to prevent concurrent modifications?",
+    "answer": "Through a locking mechanism provided by the configured backend during plan and apply."
+  },
+  {
+    "id": "a9c72c95-e115-4bcf-9025-e9eb92b21100",
+    "topic": "terraform",
+    "content": "How does an infrastructure-as-code tool know what has already been provisioned versus what still needs to change?",
+    "answer": "It keeps a record file mapping declared resources to the real infrastructure it created."
+  },
+  {
+    "id": "1b21bcc7-6ef2-4e3f-8527-1a6eb865833e",
+    "topic": "terraform",
+    "content": "What lets you preview the exact changes a declarative infra tool would make before committing them?",
+    "answer": "A dry-run step that computes and displays the diff between desired and current state."
+  },
+  {
+    "id": "ba2ee40f-ee53-4603-b084-b2101aade1f1",
+    "topic": "terraform",
+    "content": "How can a reusable block of infrastructure configuration be parameterized and shared across projects?",
+    "answer": "By packaging it as a module that accepts input variables and exposes outputs."
+  },
+  {
+    "id": "cccbfcec-25ff-47d3-8bb9-be5b9b43d92a",
+    "topic": "terraform",
+    "content": "How does a declarative provisioning tool decide the order to create or tear down resources?",
+    "answer": "It resolves a dependency graph from resource references and acts in the correct order."
+  },
+  {
+    "id": "6774f880-10e6-4c66-bf22-1fe458966415",
+    "topic": "terraform",
+    "content": "How do teams safely collaborate on the same infrastructure configuration without overwriting each other's changes?",
+    "answer": "By storing the shared state remotely with a locking mechanism during changes."
+  },
+  {
+    "id": "c5360fb0-9c6b-4bb4-ba99-55cfce06cc20",
+    "topic": "terraform",
+    "content": "How can the same infrastructure definition manage separate environments like staging and production?",
+    "answer": "By switching between isolated named state contexts tied to the same configuration."
+  },
+  {
+    "id": "47c559a2-91ea-403f-a4b5-6a2bf75be9b3",
+    "topic": "terraform",
+    "content": "What plugin architecture lets a provisioning tool manage resources across many different cloud vendors?",
+    "answer": "Vendor-specific plugins that translate the tool's resource types into that vendor's API calls."
+  },
+  {
+    "id": "759de0e8-88f5-4628-b78d-e283b47ac475",
+    "topic": "terraform",
+    "content": "How does tearing down provisioned infrastructure ensure nothing is left behind?",
+    "answer": "It walks the dependency graph in reverse and removes every resource currently tracked."
+  }
+]
