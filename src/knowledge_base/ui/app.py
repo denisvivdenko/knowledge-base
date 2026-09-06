@@ -6,6 +6,7 @@ import streamlit as st
 
 from knowledge_base.api.auth import hash_token
 from knowledge_base.repositories.question_repository import QuestionRepository
+from knowledge_base.services.semantic_search import SemanticSearch
 
 DEFAULT_DATA_DIR = Path.home() / ".knowledge-base"
 
@@ -37,6 +38,11 @@ def _authorized() -> bool:
     return False
 
 
+@st.cache_resource
+def _get_semantic_search() -> SemanticSearch:
+    return SemanticSearch()
+
+
 st.set_page_config(page_title="Knowledge Base", page_icon="🧠", layout="centered")
 
 if not _authorized():
@@ -44,11 +50,17 @@ if not _authorized():
 
 
 repository = QuestionRepository(_data_dir() / "questions.jsonl")
-questions = sorted(repository.load_all(), key=lambda q: q.created_at, reverse=True)
+all_questions = repository.load_all()
 
-search = st.text_input("Search", placeholder="Filter questions by content...")
-if search:
-    questions = [q for q in questions if search.lower() in q.content.lower()]
+semantic_search = _get_semantic_search()
+semantic_search.drop()
+semantic_search.add(all_questions)
+
+search_query = st.text_input("Search", placeholder="Search questions by topic...")
+if search_query:
+    questions = semantic_search.search(search_query)
+else:
+    questions = sorted(all_questions, key=lambda q: q.created_at, reverse=True)
 
 st.caption(f"{len(questions)} question{'s' if len(questions) != 1 else ''}")
 
