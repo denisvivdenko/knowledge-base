@@ -25,16 +25,19 @@ def kb(tmp_path):
     return KnowledgeBase(repo)
 
 
-def test_sample_by_topic_returns_added_questions_matching_the_topic(kb):
+def test_retrieve_by_topic_returns_added_questions_matching_the_topic(kb):
     databricks_question = make_question(content="What is a Databricks cluster policy?")
     postgres_question = make_question(content="What is a Postgres B-tree index?")
-
     kb.add_questions(questions=[databricks_question, postgres_question])
 
-    assert kb.sample_by_topic(topic="databricks") == [databricks_question]
+    retrieved_questions = kb.retrieve_by_topic(topic="databricks")
+
+    assert retrieved_questions == [databricks_question]
 
 
-def test_sample_by_topic_returns_empty_list_when_nothing_matches(kb):
+def test_retrieve_by_topic_returns_empty_list_when_nothing_matches(kb):
     kb.add_questions(questions=[make_question(content="What is a Postgres B-tree index?")])
 
-    assert kb.sample_by_topic(topic="databricks") == []
+    retrieved_questions = kb.retrieve_by_topic(topic="databricks")
+
+    assert retrieved_questions == []

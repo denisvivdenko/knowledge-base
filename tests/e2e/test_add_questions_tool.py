@@ -1,11 +1,3 @@
-"""End-to-end tests for the knowledge-base MCP server.
-
-These tests spawn the real server as a subprocess over stdio (no mocked
-transport) and let a real Anthropic model choose and call the tools from a
-natural-language prompt, the same way Claude Code or Claude Desktop would.
-They require ANTHROPIC_API_KEY and network access; they are skipped otherwise.
-"""
-
 from anthropic import Anthropic
 
 from _support import (

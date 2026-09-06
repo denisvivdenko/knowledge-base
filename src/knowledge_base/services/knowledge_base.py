@@ -9,7 +9,7 @@ class KnowledgeBase:
     def add_questions(self, questions: list[Question]) -> None:
         self._repository.save(questions)
 
-    def sample_by_topic(self, topic: str) -> list[Question]:
+    def retrieve_by_topic(self, topic: str) -> list[Question]:
         return [
             question
             for question in self._repository.load_all()

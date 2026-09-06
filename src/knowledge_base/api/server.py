@@ -46,7 +46,7 @@ def add_questions(questions: list[QuestionInput]) -> dict:
 @mcp.tool()
 def retrieve_questions_by_topic(topic: str) -> list[dict]:
     """Retrieve previously saved questions whose content matches the given topic."""
-    matches = _knowledge_base.sample_by_topic(topic)
+    matches = _knowledge_base.retrieve_by_topic(topic)
     return [question.model_dump(mode="json") for question in matches]
 
 
